@@ -1,10 +1,10 @@
-package com.lifetex.todolist.todo.entity;
+package com.lifetex.todolist.modules.todo.entity;
 
 import com.lifetex.todolist.common.BaseEntity;
-import com.lifetex.todolist.tag.entity.Tag;
-import com.lifetex.todolist.todo.enums.Priority;
-import com.lifetex.todolist.todo.enums.Status;
-import com.lifetex.todolist.user.entity.User;
+import com.lifetex.todolist.modules.tag.entity.TagEntity;
+import com.lifetex.todolist.modules.todo.enums.PriorityEnum;
+import com.lifetex.todolist.modules.todo.enums.StatusEnum;
+import com.lifetex.todolist.modules.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "todos")
-public class Todo extends BaseEntity {
+public class TodoEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,17 +28,17 @@ public class Todo extends BaseEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusEnum status;
 
     @Enumerated(EnumType.STRING)
-    private Priority priority;
+    private PriorityEnum priority;
 
     @Column(nullable = false, name = "due_date")
     private LocalDateTime dueDate;
 
     @ManyToOne
     @JoinColumn(name= "user_id")
-    private User user;
+    private UserEntity user;
 
     @ManyToMany
     @JoinTable(
@@ -46,6 +46,6 @@ public class Todo extends BaseEntity {
             joinColumns = @JoinColumn(name = "todo_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<Tag> tags;
+    private Set<TagEntity> tags;
 
 }
