@@ -19,7 +19,9 @@ public abstract class BaseEntity {
 
     @PrePersist //Hàm này sẽ chạy trước khi INSERT vào DB
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
     }
 
     @PreUpdate // Hàm này sẽ Chạy trước khi UPDATE

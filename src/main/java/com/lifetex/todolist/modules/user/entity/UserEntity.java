@@ -1,8 +1,8 @@
-package com.lifetex.todolist.user.entity;
+package com.lifetex.todolist.modules.user.entity;
 
 import com.lifetex.todolist.common.BaseEntity;
-import com.lifetex.todolist.user.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,22 +10,18 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true, length = 150)
-    private String userName;
+    @Column(nullable = false, unique = true, length = 150)
+    private String username;
 
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(unique = true)
+    @Email
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
 
 }
