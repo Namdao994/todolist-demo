@@ -1,6 +1,7 @@
 package com.lifetex.todolist.modules.todo.controller;
 
 import com.lifetex.todolist.common.ApiResponse;
+import com.lifetex.todolist.modules.tag.dto.TagCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoResponse;
 import com.lifetex.todolist.modules.todo.dto.TodoUpdateRequest;
@@ -50,6 +51,27 @@ public class TodoController {
     public ResponseEntity<ApiResponse<Void>> deleteTodo(@PathVariable Long id, @RequestParam Long userId) {
         todoService.deleteTodo(id, userId);
         ApiResponse<Void> response = new ApiResponse<>(true, "Todo Deleted", null);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/{id}/tags/{tagId}")
+    public ResponseEntity<ApiResponse<TodoResponse>> AddTagToTodo(@PathVariable Long id, @PathVariable Long tagId, @RequestParam Long userId) {
+        TodoResponse todo = todoService.addTagToTodo(id, tagId, userId);
+        ApiResponse<TodoResponse> response = new ApiResponse<>(true, "OK", todo);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{id}/tags/{tagId}")
+    public ResponseEntity<ApiResponse<TodoResponse>> removeTagFromTodo(@PathVariable Long id, @PathVariable Long tagId, @RequestParam Long userId) {
+       TodoResponse todo = todoService.removeTagFromTodo(id, tagId, userId);
+         ApiResponse<TodoResponse> response = new ApiResponse<>(true, "OK", todo);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/{id}/tags")
+    public ResponseEntity<ApiResponse<TodoResponse>> createAndAddTagToTodo(@PathVariable Long id, @RequestParam Long userId, @Valid @RequestBody TagCreateRequest request) {
+        TodoResponse todo = todoService.createAndAddTagToTodo(request, id, userId);
+        ApiResponse<TodoResponse> response = new ApiResponse<>(true, "OK", todo);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
