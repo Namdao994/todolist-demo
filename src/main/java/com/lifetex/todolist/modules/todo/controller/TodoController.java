@@ -1,6 +1,7 @@
 package com.lifetex.todolist.modules.todo.controller;
 
 import com.lifetex.todolist.common.ApiResponse;
+import com.lifetex.todolist.common.PageResponse;
 import com.lifetex.todolist.modules.tag.dto.TagCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoResponse;
@@ -8,6 +9,8 @@ import com.lifetex.todolist.modules.todo.dto.TodoUpdateRequest;
 import com.lifetex.todolist.modules.todo.service.TodoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,11 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<TodoResponse>>> getAllTodos(@RequestParam Long userId) {
-        var todos = todoService.getAllTodos(userId);
+    public ResponseEntity<ApiResponse<PageResponse<TodoResponse>>> getAllTodos(@RequestParam Long userId,
+                                                                               @RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "20") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var todos = todoService.getAllTodos(userId, pageable);
         return ResponseEntity.ok(new ApiResponse<>(true, "Ok", todos));
     }
 

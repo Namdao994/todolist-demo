@@ -1,5 +1,6 @@
 package com.lifetex.todolist.modules.todo.service.impl;
 
+import com.lifetex.todolist.common.PageResponse;
 import com.lifetex.todolist.common.exception.ResourceNotFoundException;
 import com.lifetex.todolist.modules.tag.dto.TagCreateRequest;
 import com.lifetex.todolist.modules.tag.entity.TagEntity;
@@ -15,6 +16,8 @@ import com.lifetex.todolist.modules.todo.service.TodoService;
 import com.lifetex.todolist.modules.user.entity.UserEntity;
 import com.lifetex.todolist.modules.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +33,10 @@ public class TodoServiceImpl implements TodoService {
     private final TagMapper tagMapper;
 
     @Override
-    public List<TodoResponse> getAllTodos(Long userId) {
-        List<TodoEntity> todos = todoRepository.findAllByUserId(userId);
-        return todoMapper.toDtoList(todos);
+    public PageResponse<TodoResponse> getAllTodos(Long userId, Pageable pageable) {
+        Page<TodoEntity> todos = todoRepository.findAllByUserId(userId, pageable);
+        Page<TodoResponse> todoResponses = todos.map(todoMapper::toResponse);
+        return PageResponse.of(todoResponses);
     }
 
     @Override
