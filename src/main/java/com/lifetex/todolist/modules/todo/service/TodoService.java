@@ -1,5 +1,6 @@
 package com.lifetex.todolist.modules.todo.service;
 
+import com.lifetex.todolist.modules.tag.dto.TagCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoResponse;
 import com.lifetex.todolist.modules.todo.dto.TodoUpdateRequest;
@@ -17,4 +18,10 @@ public interface TodoService {
     TodoResponse updateTodo(TodoUpdateRequest request, Long id, Long userId);
 
     void deleteTodo(Long id, Long userId);
+
+    TodoResponse addTagToTodo(Long id, Long tagId, Long userId);
+
+    TodoResponse removeTagFromTodo(Long id, Long tagId, Long userId);
+
+    TodoResponse createAndAddTagToTodo(TagCreateRequest request, Long id, Long userId);
 }

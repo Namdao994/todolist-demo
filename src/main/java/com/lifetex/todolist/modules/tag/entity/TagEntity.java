@@ -2,6 +2,7 @@ package com.lifetex.todolist.modules.tag.entity;
 
 import com.lifetex.todolist.common.BaseEntity;
 import com.lifetex.todolist.modules.tag.enums.ColorEnum;
+import com.lifetex.todolist.modules.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,9 @@ public class TagEntity extends BaseEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private ColorEnum color;
+    private ColorEnum color = ColorEnum.BLUE;
+
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    private UserEntity user;
 }
