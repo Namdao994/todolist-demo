@@ -1,15 +1,17 @@
 package com.lifetex.todolist.modules.todo.service;
 
+import com.lifetex.todolist.common.PageResponse;
 import com.lifetex.todolist.modules.tag.dto.TagCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoCreateRequest;
 import com.lifetex.todolist.modules.todo.dto.TodoResponse;
 import com.lifetex.todolist.modules.todo.dto.TodoUpdateRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface TodoService {
 
-    List<TodoResponse> getAllTodos(Long userId);
+    PageResponse<TodoResponse> getAllTodos(Long userId, Pageable pageable);
 
     TodoResponse createTodo(TodoCreateRequest request, Long userId);
 
