@@ -28,10 +28,10 @@ public class TodoEntity extends BaseEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private StatusEnum status;
+    private StatusEnum status = StatusEnum.PENDING;
 
     @Enumerated(EnumType.STRING)
-    private PriorityEnum priority;
+    private PriorityEnum priority = PriorityEnum.LOW;
 
     @Column(nullable = false, name = "due_date")
     private LocalDateTime dueDate;
