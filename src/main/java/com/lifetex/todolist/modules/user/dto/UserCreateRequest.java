@@ -14,6 +14,7 @@ public class UserCreateRequest {
     @Size(min=3, max = 20, message = "Username must be 3-20 characters")
     private String username;
 
+    @NotBlank(message = "Email is required")
     @Email(message = "Email is invalid")
     private String email;
 

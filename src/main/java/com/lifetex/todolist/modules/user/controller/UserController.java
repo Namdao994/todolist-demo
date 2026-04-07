@@ -5,6 +5,7 @@ import com.lifetex.todolist.modules.user.dto.UserChangePasswordRequest;
 import com.lifetex.todolist.modules.user.dto.UserCreateRequest;
 import com.lifetex.todolist.modules.user.dto.UserResponse;
 import com.lifetex.todolist.modules.user.dto.UserUpdateRequest;
+import com.lifetex.todolist.modules.user.service.UserService;
 import com.lifetex.todolist.modules.user.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
