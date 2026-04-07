@@ -1,5 +1,6 @@
 package com.lifetex.todolist.modules.user.service.impl;
 
+import com.lifetex.todolist.common.PageResponse;
 import com.lifetex.todolist.common.exception.ResourceNotFoundException;
 import com.lifetex.todolist.modules.user.dto.UserCreateRequest;
 import com.lifetex.todolist.modules.user.dto.UserResponse;
@@ -9,6 +10,8 @@ import com.lifetex.todolist.modules.user.mapper.UserMapper;
 import com.lifetex.todolist.modules.user.repository.UserRepository;
 import com.lifetex.todolist.modules.user.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +25,10 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public List<UserResponse> getAllUsers() {
-        var users = userRepository.findAll();
-        return userMapper.toDtoList(users);
+    public PageResponse<UserResponse> getAllUsers(Pageable pageable) {
+        Page<UserEntity> users = userRepository.findAll(pageable);
+        Page<UserResponse> userResponses = users.map(userMapper::toResponse);
+        return PageResponse.of(userResponses);
     }
 
     @Override

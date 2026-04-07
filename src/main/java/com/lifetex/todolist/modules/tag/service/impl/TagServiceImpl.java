@@ -1,5 +1,6 @@
 package com.lifetex.todolist.modules.tag.service.impl;
 
+import com.lifetex.todolist.common.PageResponse;
 import com.lifetex.todolist.common.exception.ResourceNotFoundException;
 import com.lifetex.todolist.modules.tag.dto.TagCreateRequest;
 import com.lifetex.todolist.modules.tag.dto.TagResponse;
@@ -8,9 +9,12 @@ import com.lifetex.todolist.modules.tag.entity.TagEntity;
 import com.lifetex.todolist.modules.tag.mapper.TagMapper;
 import com.lifetex.todolist.modules.tag.repository.TagRepository;
 import com.lifetex.todolist.modules.tag.service.TagService;
+import com.lifetex.todolist.modules.todo.dto.TodoResponse;
 import com.lifetex.todolist.modules.user.entity.UserEntity;
 import com.lifetex.todolist.modules.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +28,10 @@ public class TagServiceImpl implements TagService {
     private final UserRepository userRepository;
 
     @Override
-    public List<TagResponse> getAllTags(Long userId) {
-        List<TagEntity> tags = tagRepository.findAllByUserId(userId);
-        return tagMapper.toDtoList(tags);
+    public PageResponse<TagResponse> getAllTags(Long userId, Pageable pageable) {
+        Page<TagEntity> tags = tagRepository.findAllByUserId(userId, pageable);
+        Page<TagResponse> tagResponses = tags.map(tagMapper::toResponse);
+        return PageResponse.of(tagResponses);
     }
 
     @Override
