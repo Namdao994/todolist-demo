@@ -34,6 +34,11 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", errors);
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiError> handleBusiness(BusinessException ex) {
+        return build(HttpStatus.BAD_REQUEST, ex.getCode(), ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleSystem(Exception ex) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "SYSTEM_ERROR", "Internal server error");

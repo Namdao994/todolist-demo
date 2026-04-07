@@ -1,7 +1,6 @@
 package com.lifetex.todolist.modules.user.service.impl;
 
 import com.lifetex.todolist.common.exception.ResourceNotFoundException;
-import com.lifetex.todolist.modules.user.dto.UserChangePasswordRequest;
 import com.lifetex.todolist.modules.user.dto.UserCreateRequest;
 import com.lifetex.todolist.modules.user.dto.UserResponse;
 import com.lifetex.todolist.modules.user.dto.UserUpdateRequest;
@@ -10,10 +9,8 @@ import com.lifetex.todolist.modules.user.mapper.UserMapper;
 import com.lifetex.todolist.modules.user.repository.UserRepository;
 import com.lifetex.todolist.modules.user.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -55,22 +52,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return userMapper.toResponse(user);
 
-    }
-
-    @Override
-    public void changePasswordUser(Long id, UserChangePasswordRequest request) {
-        var user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("USER_NOT_FOUND", "User not found"));
-
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Current password is incorrect");
-        }
-
-        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("New password must be different from current password");
-        }
-
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepository.save(user);
     }
 
 
