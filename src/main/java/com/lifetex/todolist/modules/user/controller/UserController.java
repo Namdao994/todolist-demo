@@ -1,12 +1,10 @@
 package com.lifetex.todolist.modules.user.controller;
 
 import com.lifetex.todolist.common.ApiResponse;
-import com.lifetex.todolist.modules.user.dto.UserChangePasswordRequest;
 import com.lifetex.todolist.modules.user.dto.UserCreateRequest;
 import com.lifetex.todolist.modules.user.dto.UserResponse;
 import com.lifetex.todolist.modules.user.dto.UserUpdateRequest;
 import com.lifetex.todolist.modules.user.service.UserService;
-import com.lifetex.todolist.modules.user.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,13 +46,6 @@ public class UserController {
             ) {
         UserResponse userResponse = userService.updateUser(id, request);
         ApiResponse<UserResponse> response = new ApiResponse<>(true, "User Updated", userResponse);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @PatchMapping("/{id}/change-password")
-    public ResponseEntity<ApiResponse<Void>> changePasswordUser(@PathVariable Long id, @Valid @RequestBody UserChangePasswordRequest request) {
-        userService.changePasswordUser(id, request);
-        ApiResponse<Void> response = new ApiResponse<>(true, "Password Changed", null);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
