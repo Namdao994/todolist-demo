@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()  // login, register
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register","/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()  // login, register
                         .anyRequest().authenticated()             // các API khác cần JWT
                 )
                 .exceptionHandling(ex -> ex
